@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import Commercial, Support, Gestion
+from .models import Collaborateur, Role
 
-admin.site.register(Commercial)
-admin.site.register(Support)
-admin.site.register(Gestion)
+admin.site.register(Collaborateur)
+admin.site.register(Role)

@@ -1,0 +1,41 @@
+[
+    {
+        "model": "collaborateur.role",
+        "pk": 1,
+        "fields": {
+            "nom": "gestion",
+            "date_de_creation": "2024-06-18T12:00:00Z",
+            "derniere_maj": "2024-06-18T12:00:00Z"
+        }
+    },
+    {
+        "model": "collaborateur.role",
+        "pk": 2,
+        "fields": {
+            "nom": "commercial",
+            "date_de_creation": "2024-06-18T12:00:00Z",
+            "derniere_maj": "2024-06-18T12:00:00Z"
+        }
+    },
+    {
+        "model": "collaborateur.role",
+        "pk": 3,
+        "fields": {
+            "nom": "support",
+            "date_de_creation": "2024-06-18T12:00:00Z",
+            "derniere_maj": "2024-06-18T12:00:00Z"
+        }
+    },
+    {
+        "model": "collaborateur.collaborateur",
+        "pk": 1,
+        "fields": {
+            "nom": "bouzoubaa",
+            "prenom": "kassim",
+            "username": "test",
+            "email": "kassim@gmail.com",
+            "password":"test",
+            "role": 3
+        }
+    }
+]

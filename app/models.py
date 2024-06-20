@@ -1,5 +1,5 @@
 from django.db import models
-from collaborateur.models import Commercial, Support, Gestion
+from collaborateur.models import Collaborateur
 
 
 class Client(models.Model):
@@ -11,11 +11,8 @@ class Client(models.Model):
     nom_entreprise = models.CharField(max_length=200)
     date_de_creation = models.DateTimeField(auto_now_add=True)
     derniere_maj = models.DateTimeField(auto_now=True)
-    commercial_id = models.ForeignKey(Commercial,on_delete=models.CASCADE , related_name='clients')
+    commercial = models.ForeignKey(Collaborateur,on_delete=models.CASCADE , related_name='clients')
     
-    def commercial_name(self):
-        return self.commercial_id.nom_complet
-
     @property
     def nom_complet(self):
         return f"{self.prenom} {self.nom}"
@@ -25,12 +22,12 @@ class Client(models.Model):
         return f"{self.email} {self.telephone}"
 
 class Contract(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE ,related_name='contracts')
-    commercial_id = models.ForeignKey(Commercial,on_delete=models.CASCADE , related_name='contracts')
-    montant_total = models.IntegerField(default=0)
-    montant_restant = models.IntegerField(default=0)
+    montant_total = models.IntegerField()
+    montant_restant = models.IntegerField()
     date_de_creation = models.DateTimeField(auto_now_add=True)
     statut = models.BooleanField(default=False)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE ,related_name='contracts')
+    commercial = models.ForeignKey(Collaborateur,on_delete=models.CASCADE , related_name='contracts')
     
     def commercial_name(self):
         return self.commercial_id.nom_complet
@@ -38,14 +35,14 @@ class Contract(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=200)
-    contract_id = models.ForeignKey(Contract, on_delete=models.CASCADE ,related_name='events')
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='events')
     date_de_debut = models.DateTimeField()
     date_de_fin = models.DateTimeField()
-    support_id = models.ForeignKey(Support,on_delete=models.CASCADE , related_name='events')
     lieu = models.CharField(max_length=100)
     participants = models.IntegerField()
     notes = models.CharField(max_length=100)
+    support = models.ForeignKey(Collaborateur,on_delete=models.CASCADE , related_name='events')
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE ,related_name='events')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='events')
     
     def client_name(self):
         return self.client.nom_complet
