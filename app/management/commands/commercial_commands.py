@@ -185,7 +185,7 @@ class Command(BaseCommand):
             )
         except Collaborateur.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Collaborateur with id {commercial.id} does not exist"
+                e, self.stdout,self.style,  f"Collaborateur with id {commercial.id} does not exist"
             )
 
     def update_client(self, user, **kwargs):
@@ -219,7 +219,7 @@ class Command(BaseCommand):
 
         except Client.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Client with id {client_id} does not exist"
+                e, self.stdout, self.style, f"Client with id {client_id} does not exist"
             )
 
     def read_contract(self, user, **kwargs):
@@ -251,6 +251,9 @@ class Command(BaseCommand):
 
         try:
             contract = Contract.objects.get(id=contract_id)
+            client_id = contract.client.id
+            client = Client.objects.get(id=client_id)
+           
             if client.commercial.id != user.id:
                 self.stdout.write(
                     self.style.ERROR(f"You are not responsible of this client")
@@ -273,6 +276,7 @@ class Command(BaseCommand):
                     handle_exception(
                         e,
                         self.stdout,
+                        self.style,
                         f'Client with id {kwargs["client_id"]} does not exist',
                     )
                     return
@@ -284,7 +288,7 @@ class Command(BaseCommand):
 
         except Contract.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Contract with id {contract_id} does not exist"
+                e, self.stdout, self.style, f"Contract with id {contract_id} does not exist"
             )
 
     def create_event(self, user, **kwargs):
@@ -333,11 +337,11 @@ class Command(BaseCommand):
             )
         except Contract.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Contract with id {contract_id} does not exist"
+                e, self.stdout, self.style, f"Contract with id {contract_id} does not exist"
             )
         except Client.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Client with id {client.id} does not exist"
+                e, self.stdout, self.style, f"Client with id {client.id} does not exist"
             )
         except Collaborateur.DoesNotExist as e:
             handle_exception(

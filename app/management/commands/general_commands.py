@@ -63,7 +63,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS("No clients found"))
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error retrieving clients: {e}")
+            handle_exception(e, self.stdout, self.style, f"Error retrieving clients: {e}")
 
     def read_contracts(self, **kwargs):
         try:
@@ -84,7 +84,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS("No contracts found"))
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error retrieving contracts: {e}")
+            handle_exception(e, self.stdout, self.style, f"Error retrieving contracts: {e}")
 
     def read_events(self, **kwargs):
         try:
@@ -104,4 +104,4 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS("No events found"))
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error retrieving events: {e}")
+            handle_exception(e, self.stdout, self.style, f"Error retrieving events: {e}")

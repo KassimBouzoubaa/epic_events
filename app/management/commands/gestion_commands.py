@@ -166,7 +166,7 @@ class Command(BaseCommand):
         token = get_token_from_file()
 
         user = get_user_from_token(token, self.stdout)
-        print(user)
+        
         if not user:
             print(token)
             self.stdout.write(self.style.ERROR("Invalid token"))
@@ -220,11 +220,11 @@ class Command(BaseCommand):
 
         except Role.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Role with name {role_name} does not exist"
+                e, self.stdout, self.style, f"Role with name {role_name} does not exist"
             )
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error creating collaborateur: {e}")
+            handle_exception(e, self.stdout, self.style, f"Error creating collaborateur: {e}")
 
     def update_collaborateur(self, **kwargs):
         collaborateur_id = kwargs["collaborateur_id"]
@@ -246,6 +246,7 @@ class Command(BaseCommand):
                     handle_exception(
                         e,
                         self.stdout,
+                        self.style,
                         f'Role with id {kwargs["role_name"]} does not exist',
                     )
                     return
@@ -263,6 +264,7 @@ class Command(BaseCommand):
             handle_exception(
                 e,
                 self.stdout,
+                self.style,
                 f"Collaborateur with id {collaborateur_id} does not exist",
             )
 
@@ -277,7 +279,9 @@ class Command(BaseCommand):
                 collaborateurs = collaborateurs.filter(role=role)
             except Role.DoesNotExist as e:
                 handle_exception(
-                    e, self.stdout, f'Role with id {kwargs["role_name"]} does not exist'
+                    e, self.stdout,
+                    self.style,
+                    f'Role with id {kwargs["role_name"]} does not exist'
                 )
                 return
 
@@ -301,11 +305,14 @@ class Command(BaseCommand):
             handle_exception(
                 e,
                 self.stdout,
+                self.style,
                 f"Collaborateur with id {collaborateur_id} does not exist",
             )
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error deleting collaborateur: {e}")
+            handle_exception(e, self.stdout, 
+                             self.style,
+                             f"Error deleting collaborateur: {e}")
 
     def create_contract(self, **kwargs):
         montant_total = kwargs["montant_total"]
@@ -333,19 +340,19 @@ class Command(BaseCommand):
 
         except Client.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Client with id {client_id} does not exist"
+                e, self.stdout, self.style, f"Client with id {client_id} does not exist"
             )
 
         except Collaborateur.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Commercial with id {commercial_id} does not exist"
+                e, self.stdout, self.style, f"Commercial with id {commercial_id} does not exist"
             )
 
         except ValueError as e:
-            handle_exception(e, self.stdout, f"Error creating contract: {e}")
+            handle_exception(e, self.stdout, self.style,f"Error creating contract: {e}")
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Unexpected error: {e}")
+            handle_exception(e, self.stdout,self.style, f"Unexpected error: {e}")
 
     def update_contract(self, **kwargs):
         contract_id = kwargs["contract_id"]
@@ -368,7 +375,7 @@ class Command(BaseCommand):
                 except Client.DoesNotExist as e:
                     handle_exception(
                         e,
-                        self.stdout,
+                        self.stdout,self.style,
                         f'Client with id {kwargs["client_id"]} does not exist',
                     )
 
@@ -381,7 +388,7 @@ class Command(BaseCommand):
                 except Collaborateur.DoesNotExist as e:
                     handle_exception(
                         e,
-                        self.stdout,
+                        self.stdout,self.style,
                         f'Collaborateur with id {kwargs["commercial_id"]} does not exist',
                     )
 
@@ -394,7 +401,7 @@ class Command(BaseCommand):
 
         except Contract.DoesNotExist as e:
             handle_exception(
-                e, self.stdout, f"Contract with id {contract_id} does not exist"
+                e, self.stdout,self.style, f"Contract with id {contract_id} does not exist"
             )
 
     def read_event_without_support(self, **kwargs):
@@ -413,7 +420,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS("No events without support found"))
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error retrieving events: {e}")
+            handle_exception(e, self.stdout, self.style,f"Error retrieving events: {e}")
 
     def update_event(self, **kwargs):
         event_id = kwargs["event_id"]
@@ -440,7 +447,7 @@ class Command(BaseCommand):
                 except Collaborateur.DoesNotExist as e:
                     handle_exception(
                         e,
-                        self.stdout,
+                        self.stdout,self.style,
                         f'Support collaborator with id {kwargs["support_id"]} does not exist',
                     )
 
@@ -452,7 +459,7 @@ class Command(BaseCommand):
                 except Contract.DoesNotExist as e:
                     handle_exception(
                         e,
-                        self.stdout,
+                        self.stdout,self.style,
                         f'Contract with id {kwargs["contract_id"]} does not exist',
                     )
                     return
@@ -463,7 +470,7 @@ class Command(BaseCommand):
                 except Client.DoesNotExist as e:
                     handle_exception(
                         e,
-                        self.stdout,
+                        self.stdout,self.style,
                         f'Client with id {kwargs["client_id"]} does not exist',
                     )
                     return
@@ -474,7 +481,7 @@ class Command(BaseCommand):
             )
 
         except Event.DoesNotExist as e:
-            handle_exception(e, self.stdout, f"Event with id {event_id} does not exist")
+            handle_exception(e, self.stdout,self.style, f"Event with id {event_id} does not exist")
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error updating event: {e}")
+            handle_exception(e, self.stdout,self.style, f"Error updating event: {e}")

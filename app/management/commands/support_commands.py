@@ -84,7 +84,7 @@ class Command(BaseCommand):
                 )
 
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error reading events: {e}")
+            handle_exception(e, self.stdout,self.style, f"Error reading events: {e}")
 
     def update_event(self, user, **kwargs):
         event_id = kwargs["event_id"]
@@ -114,24 +114,17 @@ class Command(BaseCommand):
                     contract = Contract.objects.get(id=kwargs["contract_id"])
                     event.contract = contract
                 except Contract.DoesNotExist as e:
-                    self.stdout.write(
-                        self.style.ERROR(
-                            f'Contract with id {kwargs["contract_id"]} does not exist'
-                        )
-                    )
                     handle_exception(
-                        e, self.stdout, f"Role with name {role_name} does not exist"
+                        e, self.stdout,self.style, f'Contract with id {kwargs["contract_id"]} does not exist'
                     )
                     return
             if kwargs["client_id"]:
                 try:
                     client = Client.objects.get(id=kwargs["client_id"])
                     event.client = client
-                except Client.DoesNotExist:
-                    self.stdout.write(
-                        self.style.ERROR(
-                            f'Client with id {kwargs["client_id"]} does not exist'
-                        )
+                except Client.DoesNotExist as e:
+                    handle_exception(
+                        e, self.stdout,self.style, f'Client with id {kwargs["client_id"]} does not exist'
                     )
                     return
 
@@ -141,6 +134,6 @@ class Command(BaseCommand):
             )
 
         except Event.DoesNotExist as e:
-            handle_exception(e, self.stdout, f"Event with id {event_id} does not exist")
+            handle_exception(e, self.stdout,self.style, f"Event with id {event_id} does not exist")
         except Exception as e:
-            handle_exception(e, self.stdout, f"Error updating event: {e}")
+            handle_exception(e, self.stdout,self.style, f"Error updating event: {e}")

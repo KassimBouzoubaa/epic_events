@@ -5,8 +5,8 @@ import sentry_sdk
 import logging
 
 
-def handle_exception(e, stdout, message):
-    stdout.write(stdout.style.ERROR(message))
+def handle_exception(e, stdout, style, message):
+    stdout.write(style.ERROR(message))
     sentry_sdk.capture_exception(e)
 
 
