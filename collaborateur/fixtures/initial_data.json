@@ -25,17 +25,5 @@
             "date_de_creation": "2024-06-18T12:00:00Z",
             "derniere_maj": "2024-06-18T12:00:00Z"
         }
-    },
-    {
-        "model": "collaborateur.collaborateur",
-        "pk": 1,
-        "fields": {
-            "nom": "bouzoubaa",
-            "prenom": "kassim",
-            "username": "test",
-            "email": "kassim@gmail.com",
-            "password":"test",
-            "role": 3
-        }
     }
 ]
